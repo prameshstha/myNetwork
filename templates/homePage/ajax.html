@@ -1,0 +1,19 @@
+<script type="text/javascript">
+    $(document).ready(function(event){
+        $(document).on('click'.'#like' function(event){
+            event.preventDefault();
+            var pk = $(this).attr('value');
+            $.ajax({
+                url:'{% url 'like' post.id %}',
+                data: {'id':pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}
+                success: function(response){
+                    $('#like-section').html(response['form'])
+                },
+                error: function:(rs, e){
+                    console.log(rs.responseText);
+                }
+            });
+        });
+
+    });
+</script>

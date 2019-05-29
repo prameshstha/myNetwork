@@ -1,0 +1,83 @@
+
+{% for post in queryset %}
+    <div class="row shadow-sm p-3 mb-2 border rounded ">
+        <div style="width:12%;"  >
+             {% for UserDetails in UserDetails %}
+                {%if UserDetails.user_Id_id == post.post_user_id %}
+                    {% if UserDetails.user_profile_pic.url != Null %}
+                        <a href=""> <img class="rounded-circle" src="{{UserDetails.user_profile_pic.url}}" style="width:80px; height:80px; padding:7px"></a>
+                    {% else %}
+                        <img class="rounded-circle" src="media/noImage.jpg" style="width:80px; height:80px;">
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+        </div>
+        <div style="width:88%; padding:7px" class="col-9">
+                <div>
+                    <div class="border-bottom" style="">
+                        <a href="{% url 'profile' post.post_user_id %}"> {{post.post_user|capfirst}}</a> <br/>
+                        <small>{{post.post_created_at}}</small>
+                    </div>
+                    <div class="">{{ post.post_body }}</div>
+
+
+                </div>
+                <!--like section div start-->
+                <div id="{{post.id}}">
+                            <!--inside like section-->
+                    {% include "homePage/like_section.html" %}
+                                 <!--inside like section end-->
+                </div>
+                <!--like section div ends-->
+
+            </div>
+        <!--like comment share button with comments ends here-->
+        <!--commenting section starts here-->
+        <div id="demo{{post.id}}" class="collapse" style="padding:0px">
+            <div id="ajax_comment{{post.id}}">
+            <!--comments list starts here-->
+                {% include "homePage/comment_section.html" %}
+            <!--comments list ends here-->
+            </div>
+
+        <!--commenting form starts here-->
+            <form method="POST" name="formComment" action="{% url 'commentsOnpost' %}">
+             {% csrf_token %}
+             <!--{{formComment}}-->
+                <input type="hidden" name="csrfmiddlewaretoken" value="mjxx6xVj2LT6rOkmNrqWBd1GDsiktaokY3YuG2Z1Kb3n5542XHechQtpaYmxc77H">
+             <tr>
+                 <th>
+                     <label for="form_comment{{post.id}}">Comment:</label></th>
+                        <td>
+                            <textarea name="Comment" cols="75" rows="" class="form-control" placeholder="Comment Here" id="form_comment{{post.id}}" required></textarea>
+                        </td>
+             </tr>
+                <!--<a type="submit" id="comment" value="{{post.id}}" class="btn btn-primary text-white">Comment</a>-->
+                <i onclick="" class="btn btn-primary text-white" id="comment" value="{{post.id}}" ><label style="font-family:Arial; font-size:16px; cursor: pointer">Comment</label></i>
+            </form>
+            <!--commenting form ends here-->
+        <!--commenting section ends here-->
+        </div>
+
+    </div>
+
+{% endfor %}
+<style>
+.fa {
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+
+  border:black;
+}
+
+.fa:hover {
+  color: blue;
+}
+#lcs a:link { color: grey; }
+#lcs a:link:hover { color: blue; }
+
+</style>
+
+

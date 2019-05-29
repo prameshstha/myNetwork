@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'master.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>{{ request.user.username|capfirst }}</title>
+</head>
+{% block body %}
+<body>
+
+<div id="mainContainer" class="container">
+    <div id="mainRow" class="row">
+        <div class="col-3">
+                {% if ownerUserDetail.user_profile_pic.url != Null %}
+                    <img class="rounded-circle" src="{{ownerUserDetail.user_profile_pic.url}}" alt="" style="width:200px; height:200px; padding:15px"><br/>
+                {% else %} <!-- if the value is emptys -->
+                    <img src="../media/noImage.JPG" alt="" style="width:200px; height:200px; padding:15px"><br/>
+                {% endif %}
+
+                    <ul class="list-group">
+                         <li class="list-group-item">
+                             <a class="" href="{% url 'add_profile_details' %}">Edit Profile</a>
+                        </li>
+                      <li class="list-group-item">Profile Name <span class="badge">{{userProfile.username|capfirst}} </span></li>
+                      <li class="list-group-item">Email <span class="badge">{{userProfile.email}}</span></li>
+                      <li class="list-group-item">DOB <span class="badge">{{ userDetails.user_DOB}}</span></li>
+                      <li class="list-group-item">Firstname <span class="badge">{{userProfile.first_name}}</span></li>
+                      <li class="list-group-item">Lastname <span class="badge">{{userProfile.last_name}}</span></li>
+                      <li class="list-group-item">Name <span class="badge">{{ userDetails.user_Id }}</span></li>
+                      <li class="list-group-item">Gender <span class="badge">{{ userDetails.user_gender}}</span></li>
+                    </ul>
+        </div>
+        <div class="col-9" id="btn">
+            <div class="row">
+                    {% if ownerUserDetail.user_profile_pic.url != Null %}
+                        <img src="{{ownerUserDetail.user_cover_pic.url}}" alt="" style="width:100%; height:320px;"><br/>
+                    {% else %} <!-- if the value is emptys -->
+                        <img src="../media/cover.JPG" style="width:100%; height:320px;">
+                    {% endif %}
+
+                {% if request.user.id != userProfile.id %}
+                    {% if ofs == 'no' %}
+                        {% if sentRequest.id == request.user.id %}
+                            <a href="{% url 'change_friend' 'cancelRequest' userProfile.id %}" class="btn1" style="margin-top:-35px; color:white;">Cancel Request</a>
+                        {% elif sentRequest.id != request.user.id%}
+                            {% if fRequest.id == userProfile.id %}
+                                <a href="{% url 'accept_friend' userProfile.id %}" class="btn1" style="margin-top:-35px; color:white">Accept Friend</a>
+                            {% elif fRequest.id != userProfile.id %}
+                                <a href="{% url 'change_friend' 'add' userProfile.id %}" class="btn1" style="margin-top:-35px; color:white">Make Friend</a>
+                            {% endif %}
+                        {% endif %}
+                        <a href="{% url 'change_following' 'follow' userProfile.id %}" class="btn2" style="margin-top:-35px; color:white">Follow</a>
+                    {% elif ofs == 'yes' %}
+                        <a href="{% url 'change_friend' 'remove' userProfile.id %}" class="btn1" style="margin-top:-35px; color:white;">Unfriend</a>
+
+                        <a href="{% url 'change_following' 'unFollow' userProfile.id %}" class="btn2" style="margin-top:-35px; color:white;">Unfollow</a>
+                    {% endif  %}
+                {% endif %}
+                <a href="" class="btn3" style="margin-top:-35px; color:white">Message</a>
+
+            </div>
+            <div class="row mt-1">
+                <div class="col-9 m-0">
+                    <form method="POST" name="formPost">
+                        {% csrf_token %}
+                        <textarea class="form-control", placeholder="Post Something Here", id="form_post", rows="2", cols="70"></textarea>
+
+                        <input type="submit" value="Post" id="post" class="btn btn-primary mt-1">
+                    </form>
+                    {% include "mainPostPage.html" %}
+                </div>
+                <div class="col-3 ">
+                <div class="modal-header">
+                    Friends List
+                </div>
+                <div class="container">
+                    <div class="row">
+                        {% for user_friends in friend_ko_details %}
+                            <div class="col-md-4 m-2">
+                                <a href="{% url 'profile' user_friends.user_id %}" >
+                                    {% if user_friends.user_profile_pic%}
+                                        <img class="rounded-circle" src="{{user_friends.user_profile_pic.url}}" alt="{{user_friends.user_id}}" title="{{user_friends|capfirst}}" style="width:50px; height:50px;"><br/>
+                                    {% else %}
+                                        <img src="../media/noImage.jpg" alt="{{ user_friends.username|capfirst }}" title="{{ user_friends|capfirst }}" style="width:50px; height:50px;">
+                                    {% endif %}
+                                    </a>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                <div class="">
+                        <ul class="list-group">
+
+                          <li class="list-group-item">About me <span class="badge">1</span></li>
+                          <li class="list-group-item">Photos <span class="badge">21</span></li>
+                          <li class="list-group-item">Friends <span class="badge">4</span></li>
+                          <li class="list-group-item">Friends <span class="badge">4</span></li>
+                          <li class="list-group-item">Friends <span class="badge">4</span></li>
+                          <li class="list-group-item">Friends <span class="badge">4</span></li>
+                          <li class="list-group-item">Friends <span class="badge">4</span></li>
+
+                        </ul>
+                    </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<style>
+.col-9 .btn1, .btn2, .btn3 {
+  position: relative;
+
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.col-9 .btn1 {
+ left: 50%;
+}
+
+.col-9 .btn2 {
+ left: 55%;
+}
+
+.col-9 .btn3 {
+ left: 60%;
+}
+
+.col-9 .btn1:hover, .btn2:hover, .btn3:hover {
+  background-color: black;
+}
+</style>
+{% endblock %}
+</html>

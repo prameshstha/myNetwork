@@ -1,0 +1,23 @@
+<div style="width:100%;" class="modal-header" class="modal-header">{{ post.post_likes.count }}
+            <div>
+                <a href="#" id="" data-toggle="tooltip"
+                   title="{% for ps in post.post_likes.all %}
+                            {{ ps}}
+                          {% endfor %}">Like{{post.post_likes.count|pluralize}}</a>
+                </div>
+
+        <br/>
+             <div class="col-sm-4 text-center">
+                 <button id="like" type="submit" value="{{post.id}}">Like</button>
+            <a href="" id="a"> Like</a>
+        </div>
+        <div class="col-sm-4 text-center">
+            <!--<a href="{% url 'comments' post.id %}"> Comment</a>-->
+            <a data-toggle="collapse" data-target="#demo{{post.id}}" href=""> Comment</a>
+        </div>
+        <div class="col-sm-4 text-center">
+           <a href=""> Share</a>
+        </div>
+
+    </div>
+</div>

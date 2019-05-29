@@ -1,0 +1,71 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% extends 'master.html' %}
+{% block body %}
+<div class="container">
+    <div class="row shadow-sm p-3 mb-2 border rounded ">
+        <div style="width:12%;" class="col-3" >
+        <img src="{{post.post_image.url}}" style="width:80px; height:80px; padding:7px">
+
+        </div>
+            <div style="width:88%; padding:7px" class="col-9">
+                <div>
+                    {{ post.post_body }}
+                </div>
+                <!--like section div start-->
+                        <div id="like--section">
+                            <!--inside like section-->
+
+                            <div  class="row modal-header m-0 ">
+                                <div class="" style="">
+                                    {{ post.post_likes.count }}
+
+                                    <a href="#" id="" data-toggle="tooltip" title="{% for ps in post.post_likes.all %}
+                                                                                        {{ ps}}
+                                                                                    {% empty %}
+                                                                                        No likes
+                                                                                  {% endfor %}">Like{{post.post_likes.count|pluralize}}</a>
+                                </div>
+                            </div>
+                                 <!--inside like section end-->
+                        </div>
+                <!--like section div ends-->
+                    <div class="row">
+                        <div class="col-sm-4 text-center">
+                            <a href="" id="like1"> Like</a>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <!--<a href="{% url 'comments' post.id %}"> Comment</a>-->
+                            <a data-toggle="collapse" data-target="#demo{{post.id}}" href=""> Comment</a>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <a href=""> Share</a>
+                        </div>
+                    </div>
+            </div>
+    </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(event){
+        $(document).on('click', '#like1', function(event){
+            event.preventDefault();
+            var pk = $(this).attr('value');
+            $.ajax({
+                post: 'POST',
+                url:'{% url 'likeAjax' post.id %}',
+                dataType: 'json',
+                success: function(response){
+                    $('#like--section').html(response['post'])
+                    console.log($('#like--section').html(response['post']));
+                },
+                error: function(rs, e){
+                    console.log(rs.responseText);
+                }
+            });
+        });
+
+    });
+</script>
+{% endblock %}

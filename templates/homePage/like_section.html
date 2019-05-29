@@ -1,0 +1,41 @@
+                <div  class="row modal-header m-0 " >
+                    <div class="" style="">
+                        {{ post.post_likes.count }}
+                        <a href="#" id="toltp" data-toggle="tp" title="{% for ps in post.post_likes.all %}
+                                                                            {{ ps}}
+                                                                        {% empty %}
+                                                                            No likes
+                                                                      {% endfor %}">Like{{post.post_likes.count|pluralize}}</a>
+                    </div>
+                </div>
+                               <div class="row" id="lcs" style="font-color:grey">
+                        <div class="col-sm-4 text-center">
+                            <!--<a href=""  > Like</a>-->
+                            <form action="{% url 'likeAjax' %}" method="POST" >
+                                <!--<button type="submit" name="post_id" id="like" value="{{post.id}}">-->
+                                    {% with user as request.user %}
+
+                                    {% if user in post.post_likes.all %}
+                                        <style>
+                                            i {color: blue;}
+                                        </style>
+                                    {% else %}
+                                         <style>
+                                            i {color: grey;}
+                                        </style>
+                                    {% endif %}
+
+
+                                {% endwith %}
+                                <i onclick="" class="fa fa-thumbs-up" id="like" value="{{post.id}}" ><label style="font-family:Arial; font-size:16px; cursor: pointer">Like</label></i>
+
+                            </form>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <!--<a href="{% url 'comments' post.id %}"> Comment</a>-->
+                            <a data-toggle="collapse" data-target="#demo{{post.id}}" href="">Comment </a>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <a href=""> Share</a>
+                        </div>
+                    </div>

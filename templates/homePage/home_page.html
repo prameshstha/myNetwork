@@ -1,0 +1,63 @@
+{% extends 'master.html' %}
+    <title>{{ request.user.username|capfirst }}</title>
+{% load i18n %}
+
+{% block body %}
+
+<body class="bg-light">
+
+<div class="container"  id="mainBody">
+    <div class="row" id="second">
+        <div class="col-2">{{userDetail}}
+                {% if ownerUserDetail.user_profile_pic %}
+                    <img class="rounded-circle" src="{{ownerUserDetail.user_profile_pic.url}}" alt="" style="width:200px; height:200px; padding:15px"><br/>
+                {% else %} <!-- if the value is emptys -->
+                    <img src="media/noImage.jpg" style="width:100px; height:100px; padding:15px"> {{ request.user.username|capfirst }}
+                {% endif %}
+
+        </div>
+
+        <div class="col-8">
+
+            <div class="container">
+                <div class="row border rounded shadow-sm p-4 mb-4 bg-white" id="postForm">
+                     <form method="POST" name="formPost">
+                        {% csrf_token %}
+                         {{form}}
+                      <input type="submit" value="Post" id="post" class="btn btn-primary">
+                    </form>
+                </div>
+             <!--maingPostPage code starts here-->
+          {% include "mainPostPage.html" %}
+            <!--mainPostPage code ends here-->
+
+            </div>
+        </div>
+            <div class="col-2">
+                <div class="modal-header">
+                    Friends List
+                </div>
+                <div class="container">
+                    <div class="row">
+                {% for user_friends in friends %}
+                    <div class="col-md-4 m-2">
+                            <a href="{% url 'profile' user_friends.id %}" >
+                                <img src="media/noImage.jpg" alt="{{ user_friends.username|capfirst }}" title="{{ user_friends.username|capfirst }}" style="width:50px; height:50px;">
+                            </a>
+                    </div>
+                {% endfor %}
+                    </div>
+                </div>
+
+
+            </div>
+<!--        <div class="col-2">
+            c
+        </div>-->
+
+    </div>
+</div>
+</body>
+
+
+{% endblock %}

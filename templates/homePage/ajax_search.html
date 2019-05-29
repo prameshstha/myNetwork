@@ -1,0 +1,15 @@
+{% if searchUser.count > 0 %}
+    {% for searchUser in searchUser %}
+    <a href="{% url 'profile' searchUser.id %}"><li class="dropdown list-group-item list-group-item-action" style="border:none;">{{ searchUser }}</li></a>
+    {% endfor %}
+
+{% else %}
+
+    <li style="">Nothing to display!!!</li>
+<style>
+    #search-results{ display:none}
+</style>
+
+{% endif %}
+
+

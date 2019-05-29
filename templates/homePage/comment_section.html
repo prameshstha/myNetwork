@@ -1,0 +1,50 @@
+<!--comments list starts here section-->
+<ul class="list-item">
+
+    {% for commentsAndUser in commentsAndUser %}
+        {%if commentsAndUser.post_id_id == post.id%}
+            <li class="list-group-item list-group-item-list m-2" style=" border:none; padding:3px">
+                <div class="row">
+<!--                    commenter image-->
+                    <div class="col-1">
+                        {% if commentsAndUser.user_profile_pic.url != Null %}
+                            <img class="rounded-circle" src="{{commentsAndUser.user_profile_pic.url}}" style="width:30px; height:30px;">
+                        {% else %}
+                            <img src="media/noImage.jpg" style="width:30px; height:30px;">
+                        {% endif %}
+                    </div>
+<!--                    comments details-->
+                    <div class="col-11" style="">
+                        <div class="row">
+                            <div class="col-4"><a href="">{{commentsAndUser|capfirst}}</a> </div>
+                            <div class="col-6">{{commentsAndUser.comment_content}}</div>
+                        </div>
+<!--comments like edit and delete divs starts below-->
+                        <div class="row">
+                            <div class="col-sm-3 text-center" style="font-size:10px">
+                                {{commentsAndUser.comment_created_at}}
+                            </div>
+                            <div class="col-sm-3 text-center">
+                            <!--<a href=""  > Like</a>-->
+                            <form action="{% url 'commentlikeAjax' %}" method="POST" >
+                                <a onclick="" class="fa fa-thumbs-up" id="comment_like" value="{{commentsAndUser.comment.id}}" ><label style="font-family:Arial; font-size:10px; cursor: pointer">Like</label></a>
+                            </form>
+                            </div>
+                            <div class="col-sm-3 text-center">
+                                <!--<a href="{% url 'comments' post.id %}"> Comment</a>-->
+                                <a href="" style="font-size:10px">Edit </a>
+                            </div>
+                            <div class="col-sm-3 text-center">
+                                <a href="" style="font-size:10px"> Delete</a>
+                            </div>
+                        </div>
+
+<!--comments like edit and delete divs ends above-->
+
+                    </div>
+                </div>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<!--comments list ends here-->

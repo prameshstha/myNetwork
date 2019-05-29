@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Add Details</title>
+    Add Details here...
+</head>
+{% block body%}
+
+     <div class="container">
+        <div class="row">
+            <div class="col">{{content}}
+                <div class="col-sm-6 col-12">
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'add_profile_details' %}">
+                        <!--enctype for photo  uploading in this form-->
+                        {% csrf_token %}
+                    {% for field in add_form %}
+                        <div >
+                            <div>
+                                <span>{{ field.errors }}</span>
+                            </div>
+
+                            <div class=""><label>{{ field.label_tag }}</label> {{ field }}</div>
+                        </div>
+                    <ol>
+                      {% for error in field.non_field_errors %}
+                        <li><strong>{{ error|escape }}</strong></li>
+                      {% endfor %}
+                    </ol>
+                    {% endfor %}
+                        <input type="submit" class="btn btn-primary" name="addDetails" value="Add Details">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</html>

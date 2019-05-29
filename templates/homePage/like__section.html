@@ -1,0 +1,13 @@
+ <div  class="row modal-header m-0 ">
+                    <div class="" style="">
+                        {{ post.post_likes.count }}
+
+                        <a href="#" id="" data-toggle="tooltip" title="{% for ps in post.post_likes.all %}
+                                                                            {{ ps}}
+                                                                        {% empty %}
+                                                                            No likes
+                                                                      {% endfor %}">Like{{post.post_likes.count|pluralize}}</a>
+                    </div>
+
+
+                </div>
